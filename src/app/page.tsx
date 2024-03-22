@@ -1,6 +1,10 @@
+import { dzlClient } from "@/lib/drizzle"
+
 import TodoComponent from "@/components/todo-component"
 
 export default async function Home() {
+  const todos = await dzlClient.query.todos.findMany()
+
   return (
     <div className="grid grid-cols-2 gap-12 items-start p-10 max-w-screen-xl mx-auto space-y-4">
       <div>
@@ -12,7 +16,7 @@ export default async function Home() {
       <div className="flex flex-col gap-4">
         <header className="flex flex-col gap-2 space-y-2">
           <h1 className="text-3xl font-bold px-1">To-Do List</h1>
-          <TodoComponent todos={[]} />
+          <TodoComponent todos={todos} />
         </header>
       </div>
     </div>

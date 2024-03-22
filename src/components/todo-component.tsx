@@ -11,8 +11,9 @@ import { Input } from '@/components/ui/input'
 import SubmitButton from '@/components/submit-button';
 
 interface Todo {
-  id: string
+  id: number
   content: string
+  completed?: boolean | null
 }
 
 interface Props {
@@ -29,7 +30,7 @@ const TodoComponent = ({ todos }: Props) => {
     ref.current?.reset()
 
     /* addOptimisticTodo({
-      id: 'cltyrkexw030bspv45rm4s99$',
+      id: Math.floor(Math.random() * 100),
       content: formData.get('content') as string
     }) */
 

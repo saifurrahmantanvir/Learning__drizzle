@@ -26,4 +26,4 @@ if (process.env.NODE_ENV === 'production') {
   client = global.client;
 }
 
-export { client }
+export { client as dzlClient }

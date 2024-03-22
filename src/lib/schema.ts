@@ -5,6 +5,8 @@ import { pgTable, serial, text, boolean } from 'drizzle-orm/pg-core'
  * $ npx drizzle-kit push:pg
  * Before running the command update tsconfig target to ESNext
  * 
+ * Drizzle studio $ npx drizzle-kit studio
+ * 
  * 
  */
 export const todos = pgTable('todos', {

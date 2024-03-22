@@ -1,6 +1,9 @@
 'use server'
 
+import { dzlClient } from '@/lib/drizzle';
+import { todos } from '@/lib/schema';
 import { wait } from '@/lib/utils';
+import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 export const createTodo = async (formData: FormData) => {
@@ -8,6 +11,7 @@ export const createTodo = async (formData: FormData) => {
   const { content } = Object.fromEntries(formData)
 
   try {
+    await dzlClient.insert(todos).values({ content: content as string })
 
   } catch (e) {
     return { error: e as Error }
@@ -18,8 +22,9 @@ export const createTodo = async (formData: FormData) => {
 
 }
 
-export const deleteTodo = async (todoId: string) => {
+export const deleteTodo = async (todoId: number) => {
   try {
+    await dzlClient.delete(todos).where(eq(todos.id, todoId))
 
   } catch (e) {
     return { error: e as Error }

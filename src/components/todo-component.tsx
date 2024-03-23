@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useOptimistic, useRef } from 'react'
-import { createTodo, deleteTodo } from '@/actions/todo';
+import { createTodo, deleteTodo, toggleCompleteTodo } from '@/actions/todo';
 
 import { Icons } from "@/components/icons"
 
@@ -52,16 +52,19 @@ const TodoComponent = ({ todos }: Props) => {
         <>
           <main className="flex-1 grid grid-cols-1 gap-4 mb-3 px-2">
             {todos.map(todo => (
-              <div key={todo.id} className="flex items-center space-x-2">
-                <Checkbox id="todo-1" />
-                <label className="flex-1 cursor-pointer line-through dark:line-through" htmlFor="todo-1">
+              <form action={deleteTodo.bind(null, todo.id)} key={todo.id} className="flex items-center space-x-2">
+                <Checkbox
+                  checked={todo?.completed!}
+                  id={`todo-${todo.id}`}
+                  onClick={() => toggleCompleteTodo(todo.id, !todo.completed)} />
+                <label className={`flex-1 cursor-pointer ${todo.completed ? 'line-through' : ''}`} htmlFor={`todo-${todo.id}`}>
                   {todo.content}
                 </label>
-                <Button size="icon" variant="outline" onClick={() => deleteTodo(todo.id)}>
+                <Button size="icon" variant="outline">
                   <Icons.trash className="h-4 w-4" />
                   <span className="sr-only">Delete</span>
                 </Button>
-              </div>
+              </form>
             ))}
           </main>
           <footer className="flex justify-end col-span-2">

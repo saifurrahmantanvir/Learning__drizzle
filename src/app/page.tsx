@@ -6,10 +6,10 @@ export default async function Home() {
   const todos = await dzlClient.query.todos.findMany()
 
   return (
-    <div className="grid grid-cols-2 gap-12 items-start p-10 max-w-screen-xl mx-auto space-y-4">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start p-10 max-w-screen-sm lg:max-w-screen-xl mx-auto space-y-4">
       <div>
         <h1 className='text-3xl font-medium mb-3'>Saifur rahman Tanvir</h1>
-        <div className="mb-32 grid lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
+        <div className="grid lg:max-w-5xl lg:w-full lg:grid-cols-4 lg:text-left">
           List of Todos
         </div>
       </div>

@@ -34,3 +34,17 @@ export const deleteTodo = async (todoId: number) => {
   }
 
 }
+
+export const toggleCompleteTodo = async (todoId: number, completed: boolean) => {
+  try {
+    await dzlClient.update(todos)
+      .set({ completed }).where(eq(todos.id, todoId))
+
+  } catch (e) {
+    return { error: e as Error }
+  } finally {
+    revalidatePath('/')
+
+  }
+
+}

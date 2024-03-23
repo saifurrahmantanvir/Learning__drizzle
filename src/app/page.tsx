@@ -1,9 +1,9 @@
-import { dzlClient } from "@/lib/drizzle"
+import { getAllTodos } from "@/queries/todo"
 
 import TodoComponent from "@/components/todo-component"
 
 export default async function Home() {
-  const todos = await dzlClient.query.todos.findMany()
+  const todos = await getAllTodos()
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start p-10 max-w-screen-sm lg:max-w-screen-xl mx-auto space-y-4">

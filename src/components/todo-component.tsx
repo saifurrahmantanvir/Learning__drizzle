@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useOptimistic, useRef } from 'react'
-import { createTodo, deleteTodo, toggleCompleteTodo } from '@/actions/todo';
+import { createTodo, deleteCompleteTodos, deleteTodo, toggleCompleteTodo } from '@/actions/todo';
 
 import { Icons } from "@/components/icons"
 
@@ -67,9 +67,9 @@ const TodoComponent = ({ todos }: Props) => {
               </form>
             ))}
           </main>
-          <footer className="flex justify-end col-span-2">
+          <form action={deleteCompleteTodos} className="flex justify-end col-span-2">
             <Button variant="outline">Clear completed</Button>
-          </footer>
+          </form>
         </>
       ) : (
         <div className="grid px-2 lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">

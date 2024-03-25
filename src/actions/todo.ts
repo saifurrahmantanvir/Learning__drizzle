@@ -7,7 +7,46 @@ import { insertTodo, updateTodoById, deleteTodoById } from '@/queries/todo';
 import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
-export const createTodo = async (formData: FormData) => {
+export type FormState = {
+  content: string
+  errors: {
+    text: string | undefined
+  }
+}
+
+export const createTodo = async (previousState: FormState, formData: FormData) => {
+  await wait(1000)
+  const { content } = Object.fromEntries(formData)
+
+  if (!content) {
+    return {
+      content, errors: { text: "Content must be defined!" },
+    };
+  }
+
+  try {
+    await insertTodo({ content: content as string })
+
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return {
+        content: '', errors: { text: error.message }
+      }
+    } else {
+      console.log({ error });
+
+    }
+  } finally {
+    revalidatePath('/')
+
+  }
+
+  return {
+    content: '', errors: { text: undefined }
+  }
+}
+
+/* export const createTodo = async (formData: FormData) => {
   await wait(1000)
   const { content } = Object.fromEntries(formData)
 
@@ -21,7 +60,7 @@ export const createTodo = async (formData: FormData) => {
 
   }
 
-}
+} */
 
 export const deleteTodo = async (todoId: number) => {
   try {

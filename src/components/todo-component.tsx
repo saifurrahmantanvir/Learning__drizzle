@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useOptimistic, useRef } from 'react'
-import { createTodo, deleteCompleteTodos, deleteTodo, toggleCompleteTodo } from '@/actions/todo';
+import { useFormState } from 'react-dom';
+import { createTodo, deleteCompleteTodos, deleteTodo, FormState, toggleCompleteTodo } from '@/actions/todo';
 
 import { Icons } from "@/components/icons"
 
@@ -26,13 +27,20 @@ const TodoComponent = ({ todos }: Props) => {
     return [...state, newTodo]
   }) */
 
-  const addTodo = async (formData: FormData) => {
+  const [formState, wrappedCreateTodo] = useFormState(createTodo, {
+    content: '',
+    errors: {
+      text: undefined
+    }
+  } as FormState)
+
+  /* const addTodo = async (formData: FormData) => {
     ref.current?.reset()
 
     /* addOptimisticTodo({
       id: Math.floor(Math.random() * 100),
       content: formData.get('content') as string
-    }) */
+    })
 
     try {
       await createTodo(formData)
@@ -40,13 +48,20 @@ const TodoComponent = ({ todos }: Props) => {
       console.log(error);
 
     }
-  }
+  } */
 
   return (
     <>
-      <form ref={ref} action={addTodo} className="flex space-x-2 !mb-8">
-        <Input className="max-w-sm flex-1" name="content" placeholder="Add new todo..." type="text" />
+      <form ref={ref} action={wrappedCreateTodo} className="flex flex-wrap space-x-2 !mb-8">
+        <Input className="max-w-sm flex-1"
+          name="content"
+          type="text"
+          placeholder="Add new todo..."
+          defaultValue={formState.content} />
         <SubmitButton />
+        {formState.errors.text && (
+          <div className="basis-full py-4 text-red-400">{formState.errors.text}</div>
+        )}
       </form>
       {todos.length ? (
         <>
